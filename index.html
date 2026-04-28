@@ -94,12 +94,22 @@
                 <p>A solução definitiva para indústrias, logísticas e garagens de alto padrão. Nossas portas seccionadas abrem verticalmente, otimizando seu espaço, e contam com painéis termoacústicos que garantem eficiência energética e segurança extrema.</p>
 
                 <ul class="door-checklist">
-                    <li><i class="fa-solid fa-circle-check"></i> <strong>Abertura Vertical:</strong> Libere 100% do espaço do vão livre.
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i> 
+                        <div><strong>Abertura Vertical:</strong> Libere 100% do espaço do vão livre.</div>
                     </li>
-                    <li><i class="fa-solid fa-circle-check"></i> <strong>Painéis Termoacústicos:</strong> Isolamento térmico superior em formato sanduíche.
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i> 
+                        <div><strong>Painéis Termoacústicos:</strong> Isolamento térmico superior em formato sanduíche.</div>
                     </li>
-                    <li><i class="fa-solid fa-circle-check"></i> <strong>Motores de Alto Desempenho:</strong> Suportam ciclos intensos sem aquecer.</li>
-                    <li><i class="fa-solid fa-circle-check"></i> <strong>Segurança Total:</strong> Sistema antiqueda e sensores anti-esmagamento.</li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i> 
+                        <div><strong>Motores de Alto Desempenho:</strong> Suportam ciclos intensos sem aquecer.</div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i> 
+                        <div><strong>Segurança Total:</strong> Sistema antiqueda e sensores anti-esmagamento.</div>
+                    </li>
                 </ul>
 
                 <a href="https://wa.me/556635320353?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%20para%20Portas%20Seccionadas."
@@ -109,7 +119,6 @@
             </div>
             <div class="door-image-wrapper animate-on-scroll" style="transition-delay: 0.2s;">
                 <img src="Porta automatica.jpeg" alt="Porta Automática Instalada">
-
                 <div class="floating-badge pulse-btn">
                     <i class="fa-solid fa-shield-check"></i> Qualidade Premium
                 </div>
@@ -601,7 +610,7 @@
         justify-content: center;
     }
 
-    /* SLIDER DE MARCAS */
+    /* SLIDER DE MARCAS CORRIGIDO (Cores Escuras) */
     .brands-slider-section {
         padding: 40px 0;
         background: #fff;
@@ -614,7 +623,7 @@
         font-size: 0.85rem;
         font-weight: 700;
         text-transform: uppercase;
-        color: var(--text-light);
+        color: #94a3b8;
         margin-bottom: 20px;
     }
 
@@ -631,7 +640,7 @@
         justify-content: center;
         font-weight: 900;
         font-size: 1.5rem;
-        color: var(--border-color);
+        color: #64748b; /* Corrigido: Muito mais visível e elegante */
         transition: var(--transition);
         cursor: default;
     }
@@ -701,7 +710,7 @@
         font-size: 1.3rem;
     }
 
-    /* PORTAS SECCIONADAS */
+    /* PORTAS SECCIONADAS CORRIGIDO */
     .door-campaign-section {
         padding: 100px 0;
         background-color: #fff;
@@ -729,6 +738,7 @@
         color: var(--secondary-color);
     }
 
+    /* Checklist blindado contra quebras do Elementor */
     .door-checklist {
         list-style: none;
         padding: 0;
@@ -738,15 +748,21 @@
     .door-checklist li {
         display: flex;
         align-items: flex-start;
-        gap: 15px;
+        gap: 12px;
         margin-bottom: 15px;
         font-size: 1.05rem;
+        line-height: 1.5;
     }
 
     .door-checklist li i {
         color: var(--accent-blue);
         font-size: 1.4rem;
         margin-top: 2px;
+        flex-shrink: 0; /* Impede que o ícone esmague */
+    }
+
+    .door-checklist li div {
+        flex: 1; /* Garante que o texto ocupe o espaço corretamente */
     }
 
     .door-checklist li strong {
