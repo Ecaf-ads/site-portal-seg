@@ -15,7 +15,7 @@
             <a href="#servicos">Soluções</a>
             <a href="#contato">Contato</a>
         </nav>
-        <a href="https://wa.me/556635320353" class="btn btn-outline" target="_blank" rel="noopener">
+        <a href="https://wa.me/556635320353?text=Ol%C3%A1%20Portal%20Seg!%20Vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20consultor." class="btn btn-outline" target="_blank" rel="noopener">
             <i class="fa-brands fa-whatsapp"></i> Fale Conosco
         </a>
     </div>
@@ -1409,7 +1409,19 @@
             });
         });
 
-        const leadForm = document.getElementById('leadForm');
+        // Máscara automática no campo de telefone
+        const telInput = document.getElementById('telefone');
+        if (telInput) {
+            telInput.addEventListener('input', function (e) {
+                let v = e.target.value.replace(/\D/g, '').substring(0, 11);
+                if (v.length <= 10) {
+                    v = v.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+                } else {
+                    v = v.replace(/^(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+                }
+                e.target.value = v;
+            });
+        }
         if (leadForm) {
             leadForm.addEventListener('submit', (e) => {
                 e.preventDefault();
