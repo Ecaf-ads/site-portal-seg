@@ -37,7 +37,7 @@
             <p>Amplo estoque local em portas automáticas, CFTV e controle de acesso. Fornecemos tecnologia de ponta para
                 integradores, instaladores e grandes projetos com o suporte que você merece.</p>
             <div class="hero-actions">
-                <a href="https://wa.me/556635320353" class="btn btn-primary pulse-btn" target="_blank" rel="noopener">
+                <a href="https://wa.me/556635320353?text=Ol%C3%A1%20Portal%20Seg!%20Vim%20pelo%20Google%20e%20gostaria%20de%20falar%20com%20um%20consultor." class="btn btn-primary pulse-btn" target="_blank" rel="noopener">
                     <i class="fa-brands fa-whatsapp"></i> Falar com um Consultor
                 </a>
                 <a href="#portas" class="btn btn-secondary">
@@ -382,8 +382,12 @@
                                 <option value="Revenda">Sou Instalador / Revenda</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">
-                            Iniciar Conversa <i class="fa-solid fa-paper-plane"></i>
+                        <!-- Campo oculto de origem -->
+                        <input type="hidden" id="origem" value="Formulário Site">
+                        <!-- Feedback visual -->
+                        <div id="form-feedback" style="display:none; padding:12px 16px; border-radius:8px; margin-bottom:16px; font-size:0.95rem; font-weight:600;"></div>
+                        <button type="submit" class="btn btn-primary btn-block" id="btnEnviar">
+                            Solicitar Orçamento <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </form>
                 </div>
@@ -425,7 +429,7 @@
     </div>
 </footer>
 
-<a href="https://wa.me/556635320353" class="float-whatsapp pulse-btn" target="_blank" rel="noopener"
+<a href="https://wa.me/556635320353?text=Ol%C3%A1%20Portal%20Seg!%20Vim%20pelo%20site%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." class="float-whatsapp pulse-btn" target="_blank" rel="noopener"
     aria-label="WhatsApp">
     <i class="fa-brands fa-whatsapp"></i>
 </a>
@@ -1410,26 +1414,49 @@
             leadForm.addEventListener('submit', (e) => {
                 e.preventDefault();
 
-                const nome = document.getElementById('nome').value;
+                const nome      = document.getElementById('nome').value.trim();
+                const telefone  = document.getElementById('telefone').value.trim();
                 const interesse = document.getElementById('interesse').value;
-                const btnSubmit = leadForm.querySelector('button[type="submit"]');
+                const origem    = document.getElementById('origem').value;
+                const feedback  = document.getElementById('form-feedback');
+                const btnEnviar = document.getElementById('btnEnviar');
 
-                const originalHTML = btnSubmit.innerHTML;
-                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processando...';
-                btnSubmit.style.opacity = '0.8';
-                btnSubmit.disabled = true;
+                // Loading
+                const originalHTML = btnEnviar.innerHTML;
+                btnEnviar.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+                btnEnviar.style.opacity = '0.8';
+                btnEnviar.disabled = true;
+                feedback.style.display = 'none';
 
+                // Envia para o Google Sheets via Apps Script (sem CORS usando Image beacon)
+                const params = 'nome='       + encodeURIComponent(nome)
+                             + '&telefone='  + encodeURIComponent(telefone)
+                             + '&interesse=' + encodeURIComponent(interesse)
+                             + '&origem='    + encodeURIComponent(origem);
+
+                const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxr3JSeDHDHTM3D5CCNCbtLS-hWRl45C-MrucQzb6nCB7XQkSAVJyXk1aHSVOMm-Ap6kg/exec';
+                const beacon = new Image();
+                beacon.src = APPS_SCRIPT_URL + '?' + params;
+
+                // Após 1.5s abre o WhatsApp com mensagem de origem
                 setTimeout(() => {
-                    const msg = `Olá Portal Seg! Meu nome é *${nome}*. Tenho interesse em *${interesse}* e preenchi o formulário no site. Podemos conversar?`;
-                    const linkWhatsApp = `https://wa.me/556635320353?text=${encodeURIComponent(msg)}`;
+                    const msg = `Olá Portal Seg! Meu nome é *${nome}*. Tenho interesse em *${interesse}* e preenchi o formulário no site. Podemos conversar? _(Origem: ${origem})_`;
+                    window.open(`https://wa.me/556635320353?text=${encodeURIComponent(msg)}`, '_blank');
 
-                    window.open(linkWhatsApp, '_blank');
+                    // Feedback de sucesso
+                    feedback.style.display = 'block';
+                    feedback.style.background = 'rgba(37,211,102,0.12)';
+                    feedback.style.color = '#128C7E';
+                    feedback.style.border = '1px solid rgba(37,211,102,0.3)';
+                    feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Mensagem enviada! Abrindo WhatsApp...';
 
-                    btnSubmit.innerHTML = originalHTML;
-                    btnSubmit.style.opacity = '1';
-                    btnSubmit.disabled = false;
+                    btnEnviar.innerHTML = originalHTML;
+                    btnEnviar.style.opacity = '1';
+                    btnEnviar.disabled = false;
                     leadForm.reset();
-                }, 1200);
+
+                    setTimeout(() => { feedback.style.display = 'none'; }, 5000);
+                }, 1500);
             });
         }
     }
@@ -1449,8 +1476,3 @@
         }, { threshold: 0.08 });
         document.querySelectorAll('.ps-animate').forEach(el => { psObserver.observe(el); });
 </script>
-
-
-
-
-
